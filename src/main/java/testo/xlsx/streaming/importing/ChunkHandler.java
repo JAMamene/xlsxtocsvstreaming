@@ -17,21 +17,27 @@ public class ChunkHandler {
     }
 
 
-    public void handle(Record r) {
+    public void handle(Record r, boolean debug) {
         buffer.add(r);
-        if (buffer.size() > bufferSize) {
-            flush();
+        if (buffer.size() > bufferSize -1) {
+            flush(debug);
         }
     }
 
-    public void flush() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Chunk ").append(db.getChunkNumber()).append(":\n");
-        for (Record record : buffer) {
-            sb.append('\t').append(record).append('\n');
+    public void flush(boolean debug) {
+        if (!debug) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Chunk ").append(db.getChunkNumber()).append(":\n");
+            for (Record record : buffer) {
+                sb.append('\t').append(record).append('\n');
+            }
+            db.publishChunk(sb.toString());
+            db.incrementChunkNumber();
+            buffer = new ArrayList<>(bufferSize);
+        } else {
+            db.saveChunk(buffer);
+            db.incrementChunkNumber();
+            buffer = new ArrayList<>(bufferSize);
         }
-        db.publishChunk(sb.toString());
-        db.incrementChunkNumber();
-        buffer = new ArrayList<>(bufferSize);
     }
 }

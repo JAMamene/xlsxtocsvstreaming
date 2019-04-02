@@ -9,15 +9,14 @@ import java.util.stream.StreamSupport;
 
 public class Streamer {
 
-
-    public void stream(File csvFile, int bufferSize) throws IOException {
+    public void stream(File csvFile, int bufferSize, boolean debug) throws IOException {
         CSVReader csvReader = new CSVReader(new BufferedReader(new InputStreamReader(new FileInputStream(csvFile))));
         ChunkHandler handler = new ChunkHandler(bufferSize);
         StreamSupport.stream(csvReader.spliterator(), false)
                 .skip((bufferSize + 1) * Database.getInstance().getChunkNumber())
                 .map(mapToRecord)
-                .forEach(handler::handle);
-        handler.flush();
+                .forEach(r -> handler.handle(r, debug));
+        handler.flush(debug);
     }
 
     private Function<String[], Record> mapToRecord = (line) -> new Record(line[0], line);

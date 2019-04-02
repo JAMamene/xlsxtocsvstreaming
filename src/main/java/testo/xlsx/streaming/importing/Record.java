@@ -18,4 +18,12 @@ public class Record {
                 ", fields=" + Arrays.toString(fields) +
                 '}';
     }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public String[] getFields() {
+        return fields;
+    }
 }

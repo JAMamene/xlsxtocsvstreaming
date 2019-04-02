@@ -28,7 +28,7 @@ public class Main {
             OperationHelper.doWithRetry(5, new Operation() {
                 @Override
                 public void process() throws Exception {
-                    new Streamer().stream(csvFile, 12);
+                    new Streamer().stream(csvFile, 60, false);
                 }
 
                 @Override
