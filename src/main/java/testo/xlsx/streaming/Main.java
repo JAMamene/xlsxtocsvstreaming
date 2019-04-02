@@ -7,8 +7,17 @@ import testo.xlsx.streaming.recovery.OperationHelper;
 
 import java.io.File;
 
+/**
+ * Main class
+ */
 public class Main {
 
+    /**
+     * Main loop of the program, by default it converts a file to csv and prints its content to the standard output
+     * If an exception is manually thrown while parsing it should be able to recover from the last chunk and continue
+     * the parsing
+     * @param args arguments, namely the input file passed with -i or --input
+     */
     public static void main(String[] args) {
 
         Options options = new Options();

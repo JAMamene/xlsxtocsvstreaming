@@ -12,8 +12,17 @@ import java.io.*;
 import java.net.URL;
 import java.util.Arrays;
 
+/**
+ * Class to convert xlsx to csv
+ */
 public class CSVImporter {
 
+    /**
+     * Converts the xlsx file passed by name in the resources folder to a csv file and returns it
+     * @param fileName the name of the xlsx file to convert
+     * @return the new CSV file
+     * @throws IOException if somehow some files could not be opened or created
+     */
     public File convertToCSV(String fileName) throws IOException {
         ZipSecureFile.setMinInflateRatio(0.00001);
         ClassLoader classLoader = this.getClass().getClassLoader();
