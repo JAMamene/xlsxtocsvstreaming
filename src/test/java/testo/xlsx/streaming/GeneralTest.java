@@ -19,7 +19,7 @@ public class GeneralTest {
 
     @Before
     public void setUp() {
-        csvImporter = new CSVImporter();
+        csvImporter = new CSVImporter(7);
         streamer = new Streamer();
         db = Database.getInstance();
     }

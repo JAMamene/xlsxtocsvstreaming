@@ -11,14 +11,24 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.io.*;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class to convert xlsx to csv
  */
 public class CSVImporter {
 
+    private Header header;
+    private int headerSize;
+
+    public CSVImporter(int headerSize) {
+        this.headerSize = headerSize;
+        this.header = new Header();
+    }
+
     /**
      * Converts the xlsx file passed by name in the resources folder to a csv file and returns it
+     *
      * @param fileName the name of the xlsx file to convert
      * @return the new CSV file
      * @throws IOException if somehow some files could not be opened or created
@@ -39,7 +49,12 @@ public class CSVImporter {
             try (CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFile))) {
                 Sheet sheet = workbook.getSheetAt(0);
                 for (Row r : sheet) {
-                    if (r.getRowNum() >= 7) {
+                    if (r.getRowNum() < headerSize - 1) {
+                        header.addRow(r);
+                    } else if (r.getRowNum() == headerSize - 1) {
+                        header.addRow(r);
+                        csvWriter.writeNext(header.aggregate().toArray(new String[0]), false);
+                    } else {
                         String[] cells = new String[r.getLastCellNum()];
                         Arrays.fill(cells, "");
                         for (Cell c : r) {

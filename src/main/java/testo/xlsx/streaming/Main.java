@@ -33,7 +33,7 @@ public class Main {
         try {
             cmd = parser.parse(options, args);
             String inputFileName = cmd.getOptionValue("input");
-            File csvFile = new CSVImporter().convertToCSV(inputFileName);
+            File csvFile = new CSVImporter(7).convertToCSV(inputFileName);
             OperationHelper.doWithRetry(5, new Operation() {
                 @Override
                 public void process() throws Exception {
@@ -54,5 +54,4 @@ public class Main {
             System.exit(1);
         }
     }
-
 }
